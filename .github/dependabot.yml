@@ -1,0 +1,30 @@
+version: 2
+
+updates:
+  # Python dependencies
+  - package-ecosystem: "pip"
+    directory: "/"
+
+    # Check for updates every week
+    schedule:
+      interval: "weekly"
+      day: "monday"
+
+    # Don't create too many PRs at once
+    open-pull-requests-limit: 5
+
+    # Add useful labels to Dependabot PRs
+    labels:
+      - "dependencies"
+      - "security"
+
+    # Prefix Dependabot commit messages
+    commit-message:
+      prefix: "deps"
+
+    # Group minor and patch dependency updates
+    groups:
+      python-dependencies:
+        update-types:
+          - "minor"
+          - "patch"
