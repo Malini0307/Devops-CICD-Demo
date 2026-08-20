@@ -29,3 +29,5 @@ class EmployeeRegistrationService:
         self.employees.append({"name": name, "email": email})
 
         return {"success": True, "message": "Employee registered successfully"}
+
+# Employee Registration Service
