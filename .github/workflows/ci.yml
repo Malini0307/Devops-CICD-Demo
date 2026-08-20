@@ -4,9 +4,6 @@ on:
   pull_request:
     branches:
       - main
-  push:
-    branches:
-      - COS-4-User-can-register-with-name-and-email
 
 jobs:
   build:
