@@ -58,15 +58,20 @@ jobs:
     if: success()
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Auto-merge PR on success
-        uses: pascalgn/automerge-action@v0.15.6
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MERGE_METHOD: squash
-          MERGE_COMMIT_MESSAGE: auto
-          REQUIRED_LABELS: ""
+      - name: Merge PR automatically
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            if (pr) {
+              await github.rest.pulls.merge({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number,
+                merge_method: 'squash'
+              });
+              console.log(`PR #${pr.number} merged successfully!`);
+            }
 
   notify-on-failure:
     needs: build
