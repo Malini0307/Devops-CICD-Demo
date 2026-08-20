@@ -30,4 +30,5 @@ class EmployeeRegistrationService:
 
         return {"success": True, "message": "Employee registered successfully"}
 
+
 # Employee Registration Service
