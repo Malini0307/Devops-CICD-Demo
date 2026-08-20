@@ -2,10 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from registration import EmployeeRegistrationService
 
-app = FastAPI(
-    title="Employee Registration API",
-    version="1.0"
-)
+app = FastAPI(title="Employee Registration API", version="1.0")
 
 service = EmployeeRegistrationService()
 
@@ -17,18 +14,13 @@ class EmployeeRequest(BaseModel):
 
 @app.get("/")
 def home():
-    return {
-        "message": "Employee Registration API Running"
-    }
+    return {"message": "Employee Registration API Running"}
 
 
 @app.post("/register")
 def register_employee(employee: EmployeeRequest):
 
-    result = service.register_employee(
-        employee.name,
-        employee.email
-    )
+    result = service.register_employee(employee.name, employee.email)
 
     return result
 
@@ -36,6 +28,4 @@ def register_employee(employee: EmployeeRequest):
 @app.get("/employees")
 def get_employees():
 
-    return {
-        "employees": service.employees
-    }
+    return {"employees": service.employees}

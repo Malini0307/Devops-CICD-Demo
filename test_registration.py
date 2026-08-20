@@ -42,7 +42,6 @@ class TestNameValidation:
         assert result["success"] is False
         assert result["message"] == "Employee name is required"
 
-
     def test_name_with_special_characters(self):
         service = EmployeeRegistrationService()
         result = service.register_employee("John@Doe!", "john@gmail.com")
@@ -181,7 +180,6 @@ class TestEdgeCases:
         service = EmployeeRegistrationService()
         result = service.register_employee("123", "123@gmail.com")
         assert result["success"] is True
-
 
     def test_email_with_hyphens_and_underscores(self):
         service = EmployeeRegistrationService()
