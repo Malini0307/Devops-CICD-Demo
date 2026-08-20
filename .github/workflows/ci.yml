@@ -4,9 +4,6 @@ on:
   pull_request:
     branches:
       - main
-  push:
-    branches:
-      - COS-4-User-can-register-with-name-and-email
 
 jobs:
   build:
@@ -69,6 +66,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MERGE_METHOD: squash
           MERGE_COMMIT_MESSAGE: auto
+          REQUIRED_LABELS: ""
 
   notify-on-failure:
     needs: build
