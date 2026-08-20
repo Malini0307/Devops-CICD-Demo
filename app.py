@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+
 from registration import EmployeeRegistrationService
 
 app = FastAPI(title="Employee Registration API", version="1.0")
