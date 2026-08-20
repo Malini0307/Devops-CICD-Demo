@@ -1,0 +1,105 @@
+name: CI - Build & Code Quality
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - COS-4-User-can-register-with-name-and-email
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install black ruff coverage bandit
+
+      - name: Run Black (code formatting check)
+        run: black --check .
+
+      - name: Run Ruff (linting)
+        run: ruff check .
+
+      - name: Run Bandit (security scan)
+        run: bandit -r . -ll -f json -o bandit-report.json || true
+
+      - name: Run tests with coverage
+        run: |
+          coverage run -m pytest
+          coverage report --fail-under=80
+
+      - name: Generate coverage report
+        run: coverage xml
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage.xml
+
+      - name: Upload Bandit report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: bandit-report
+          path: bandit-report.json
+
+  auto-merge:
+    needs: build
+    runs-on: ubuntu-latest
+    if: success()
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Auto-merge PR on success
+        uses: pascalgn/automerge-action@v0.15.6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MERGE_METHOD: squash
+          MERGE_COMMIT_MESSAGE: auto
+
+  notify-on-failure:
+    needs: build
+    runs-on: ubuntu-latest
+    if: failure()
+
+    steps:
+      - name: Send Email Notification on Build Failure
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.GMAIL_EMAIL }}
+          password: ${{ secrets.GMAIL_APP_PASSWORD }}
+          subject: "❌ Build Failed - PR #${{ github.event.pull_request.number }}"
+          to: ${{ secrets.GMAIL_EMAIL }}
+          from: ${{ secrets.GMAIL_EMAIL }}
+          body: |
+            ❌ Build Failed!
+
+            PR Title: ${{ github.event.pull_request.title }}
+            Branch: ${{ github.head_ref }}
+            Author: ${{ github.actor }}
+
+            📋 Failed Checks:
+            - Black (code formatting)
+            - Ruff (linting)
+            - Bandit (security scan)
+            - Pytest (tests)
+            - Coverage (code coverage)
+
+            🔗 View Details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            Please fix the issues and push again.
