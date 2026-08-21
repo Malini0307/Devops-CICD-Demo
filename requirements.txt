@@ -1,2 +1,2 @@
-﻿pytest
-Django==5.2.15
+pytest
+Django==6.1
