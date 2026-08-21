@@ -32,4 +32,3 @@ class EmployeeRegistrationService:
 
 
 # Employee Registration Service
-# This service handles the registration of employees.
