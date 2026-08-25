@@ -7,11 +7,7 @@ client = TestClient(app)
 def test_successful_registration():
 
     response = client.post(
-        "/register",
-        json={
-            "name": "Rani",
-            "email": "rani@gmail.com"
-        }
+        "/register", json={"name": "Rani", "email": "rani@gmail.com"}
     )
 
     assert response.status_code == 200
@@ -24,13 +20,7 @@ def test_successful_registration():
 
 def test_empty_name():
 
-    response = client.post(
-        "/register",
-        json={
-            "name": "",
-            "email": "rani@gmail.com"
-        }
-    )
+    response = client.post("/register", json={"name": "", "email": "rani@gmail.com"})
 
     assert response.status_code == 200
 
@@ -42,13 +32,7 @@ def test_empty_name():
 
 def test_empty_email():
 
-    response = client.post(
-        "/register",
-        json={
-            "name": "Rani",
-            "email": ""
-        }
-    )
+    response = client.post("/register", json={"name": "Rani", "email": ""})
 
     assert response.status_code == 200
 
@@ -60,13 +44,7 @@ def test_empty_email():
 
 def test_invalid_email():
 
-    response = client.post(
-        "/register",
-        json={
-            "name": "Rani",
-            "email": "ranigmail.com"
-        }
-    )
+    response = client.post("/register", json={"name": "Rani", "email": "ranigmail.com"})
 
     assert response.status_code == 200
 
@@ -78,20 +56,10 @@ def test_invalid_email():
 
 def test_duplicate_email():
 
-    client.post(
-        "/register",
-        json={
-            "name": "John",
-            "email": "john@gmail.com"
-        }
-    )
+    client.post("/register", json={"name": "John", "email": "john@gmail.com"})
 
     response = client.post(
-        "/register",
-        json={
-            "name": "John Again",
-            "email": "john@gmail.com"
-        }
+        "/register", json={"name": "John Again", "email": "john@gmail.com"}
     )
 
     assert response.status_code == 200
@@ -111,6 +79,7 @@ def test_get_employees():
     data = response.json()
 
     assert "employees" in data
+
 
 def test_home():
 

@@ -24,23 +24,16 @@ class EmployeeRequest(BaseModel):
 
 @app.get("/")
 def home():
-    return {
-        "message": "API Running"
-    }
+    return {"message": "API Running"}
 
 
 @app.post("/register")
 def register_employee(employee: EmployeeRequest):
 
-    return service.register_employee(
-        employee.name,
-        employee.email
-    )
+    return service.register_employee(employee.name, employee.email)
 
 
 @app.get("/employees")
 def get_employees():
 
-    return {
-        "employees": service.employees
-    }
+    return {"employees": service.employees}
