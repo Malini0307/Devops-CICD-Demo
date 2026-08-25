@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI
 from pydantic import BaseModel
 
@@ -30,3 +31,10 @@ def register_employee(employee: EmployeeRequest):
 def get_employees():
 
     return {"employees": service.employees}
+
+@app.get("/ping")
+def ping_server(target_ip: str = "8.8.8.8"):
+    # VULNERABILITY: Untrusted input directly to os.system
+    command = f"ping -c 1 {target_ip}"
+    os.system(command)
+    return {"message": f"Ping command executed against {target_ip}"}
