@@ -15,11 +15,6 @@ jobs:
       contents: read
       security-events: write
 
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [ 'python' ]
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -27,8 +22,7 @@ jobs:
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
-        languages: ${{ matrix.language }}
-        # We specify 'python' since your FastAPI app is Python
+        languages: python
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3

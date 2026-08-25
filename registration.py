@@ -32,21 +32,7 @@ class EmployeeRegistrationService:
 
     # Add this method INSIDE the EmployeeRegistrationService class in registration.py
 
-    def sync_employee_to_payroll(self, email):
-        """
-        REAL-WORLD VULNERABILITY: Hardcoded Credentials
-        Developers often hardcode keys for testing and forget to remove them.
-        """
-        # Bad practice: Hardcoding sensitive keys in source code
-        # CodeQL will flag this as "Hardcoded credentials"
-        aws_access_key = "AKIAIOSFODNN7EXAMPLE" 
-        payroll_api_token = "ghp_aBcDeFgHiJkLmNoPqRsTuVwXyZ1234567890"
-        
-        # Simulated API call logic would go here
-        print(f"Authenticating with {aws_access_key} to sync {email}...")
-        
-        return {"success": True, "message": "Synced to external payroll system"}
-
+    
 
 # Employee Registration Service
 # This service handles the registration of employees.
