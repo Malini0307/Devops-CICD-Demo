@@ -1,44 +1,28 @@
-name: CodeQL Security Scan
+name: "CodeQL"
 
 on:
   push:
-    branches:
-      - main
-      - "security/**"
-
+    branches: [ "main", "feature/codeql-demo" ]
   pull_request:
-    branches:
-      - main
-
-  schedule:
-    - cron: "30 2 * * 1"
-
-  workflow_dispatch:
-
-permissions:
-  contents: read
+    branches: [ "main" ]
 
 jobs:
-  codeql:
-    name: CodeQL Analysis
+  analyze:
+    name: Analyze
     runs-on: ubuntu-latest
-
     permissions:
-      security-events: write
       actions: read
       contents: read
+      security-events: write
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
-        with:
-          languages: python
-          queries: security-extended
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: python
 
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
-        with:
-          category: "/language:python"
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3

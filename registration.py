@@ -30,6 +30,9 @@ class EmployeeRegistrationService:
 
         return {"success": True, "message": "Employee registered successfully"}
 
+    # Add this method INSIDE the EmployeeRegistrationService class in registration.py
+
+    
 
 # Employee Registration Service
 # This service handles the registration of employees.
