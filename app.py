@@ -1,4 +1,5 @@
 import os
+import sqlite3
 from fastapi import FastAPI
 from pydantic import BaseModel
 
@@ -56,3 +57,24 @@ def read_hr_policy(policy_name: str):
         return {"policy": policy_name, "content": content}
     except FileNotFoundError:
         return {"error": "Policy not found"}
+
+@app.get("/employee-search")
+def search_employee(name: str):
+    """
+    REAL-WORLD VULNERABILITY: SQL Injection
+    An attacker could pass "' OR '1'='1" to dump the entire database.
+    CodeQL will flag this as "SQL query built from user-controlled sources".
+    """
+    # Connect to a local SQLite database (it will create the file if it doesn't exist)
+    conn = sqlite3.connect('employees.db')
+    cursor = conn.cursor()
+    
+    # BAD PRACTICE: Using f-strings or string concatenation for SQL queries
+    query = f"SELECT * FROM employees WHERE name = '{name}'"
+    
+    try:
+        # CodeQL tracks the untrusted 'name' input directly into execute()
+        cursor.execute(query)
+        return {"message": f"Executed query: {query}"}
+    except Exception as e:
+        return {"error": str(e)}
