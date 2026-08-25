@@ -38,3 +38,21 @@ def ping_server(target_ip: str = "8.8.8.8"):
     command = f"ping -c 1 {target_ip}"
     os.system(command)
     return {"message": f"Ping command executed against {target_ip}"}
+
+# Add this endpoint to your app.py
+@app.get("/hr-policy")
+def read_hr_policy(policy_name: str):
+    """
+    REAL-WORLD VULNERABILITY: Path Traversal
+    An attacker can pass "?policy_name=../../../etc/passwd" to read sensitive system files.
+    """
+    # Bad practice: Trusting user input directly in a file path
+    file_path = f"./company_policies/{policy_name}"
+    
+    try:
+        # CodeQL tracks the user input (policy_name) directly into the open() function
+        with open(file_path, "r") as file:
+            content = file.read()
+        return {"policy": policy_name, "content": content}
+    except FileNotFoundError:
+        return {"error": "Policy not found"}
