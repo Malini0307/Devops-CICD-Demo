@@ -7,8 +7,8 @@ updates:
 
     # Check for updates every week
     schedule:
-      interval: "weekly"
-      day: "monday"
+      interval: "daily"
+      
 
     # Don't create too many PRs at once
     open-pull-requests-limit: 5
