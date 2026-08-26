@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - "security/**"
+      - "feature/codeql-demo"  
 
   pull_request:
     branches:
@@ -36,7 +36,7 @@ jobs:
         uses: github/codeql-action/init@v3
         with:
           languages: python
-          queries: security-extended
+          queries: security-extended # This will run deeper security checks!
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
