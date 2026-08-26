@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from registration import EmployeeRegistrationService
 
+# Create FastAPI app
 app = FastAPI()
 
 app.add_middleware(
