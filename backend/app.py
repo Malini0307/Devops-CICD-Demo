@@ -17,6 +17,7 @@ app.add_middleware(
 service = EmployeeRegistrationService()
 
 
+# Define request model
 class EmployeeRequest(BaseModel):
     name: str
     email: str
