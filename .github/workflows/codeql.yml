@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - "feature/codeql-demo"  
+      - "codeql-demo"
 
   pull_request:
     branches:
