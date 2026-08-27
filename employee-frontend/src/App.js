@@ -8,7 +8,7 @@ function App() {
   const handleRegister = async () => {
     try {
       const response = await fetch(
-        "http://3.93.130.133/register",
+        "/register",
         {
           method: "POST",
           headers: {
